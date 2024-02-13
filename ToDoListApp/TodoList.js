@@ -1,7 +1,8 @@
+// TodoList.js
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity,Button, FlatList, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-
+import { View, FlatList, StyleSheet } from 'react-native';
+import InputButtonComponent from './InputButtonComponent';
+import ListItemComponent from './ListItemComponent';
 
 const sampleGoals = [
   "Faire les courses",
@@ -17,14 +18,10 @@ const sampleGoals = [
 ];
 
 const TodoList = () => {
-  const [task, setTask] = useState('');
   const [goals, setGoals] = useState(sampleGoals);
 
-  const handleAddTask = () => {
-    if (task.trim() !== '') {
-      setGoals([task, ...goals]);
-      setTask('');
-    }
+  const handleAddTask = (task) => {
+    setGoals([task, ...goals]);
   };
 
   const handleDeleteGoal = (index) => {
@@ -35,23 +32,14 @@ const TodoList = () => {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        value={task}
-        onChangeText={setTask}
-        placeholder="Saisir un objectif"
-      />
-      <Button title="Ajouter" onPress={handleAddTask} />
+      <InputButtonComponent onAddTask={handleAddTask} />
       <FlatList
         data={goals}
         renderItem={({ item, index }) => (
-          <View style={styles.taskContainer}>
-            <Text style={styles.taskText}>{item}</Text>
-            <TouchableOpacity onPress={() => handleDeleteGoal(index)}>
-              <Icon name="times" size={20} color="red" />
-            </TouchableOpacity>
-            {/*<Button title="Supprimer" onPress={() => handleDeleteGoal(index)} />*/}
-          </View>
+          <ListItemComponent
+            item={item}
+            onPress={() => handleDeleteGoal(index)}
+          />
         )}
         keyExtractor={(item, index) => index.toString()}
       />
@@ -64,23 +52,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: '#fff',
-  },
-  input: {
-    height: 40,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    marginBottom: 10,
-    paddingHorizontal: 10,
-  },
-  taskContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 5,
-  },
-  taskText: {
-    flex: 1,
-    marginRight: 10,
   },
 });
 
