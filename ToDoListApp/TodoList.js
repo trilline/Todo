@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, FlatList, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity,Button, FlatList, StyleSheet } from 'react-native';
 
 const sampleGoals = [
   "Faire les courses",
@@ -45,7 +45,10 @@ const TodoList = () => {
         renderItem={({ item, index }) => (
           <View style={styles.taskContainer}>
             <Text style={styles.taskText}>{item}</Text>
-            <Button title="Supprimer" onPress={() => handleDeleteGoal(index)} />
+            <TouchableOpacity onPress={() => handleDeleteGoal(index)}>
+              <Icon name="times" size={20} color="red" />
+            </TouchableOpacity>
+            {/*<Button title="Supprimer" onPress={() => handleDeleteGoal(index)} />*/}
           </View>
         )}
         keyExtractor={(item, index) => index.toString()}
