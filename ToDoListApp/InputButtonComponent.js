@@ -1,6 +1,6 @@
 // InputButtonComponent
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { View, TextInput, Platform, TouchableOpacity, Text, TouchableNativeFeedback, StyleSheet } from 'react-native';
 
 const InputButtonComponent = ({ onAddTask }) => {
   const [task, setTask] = useState('');
@@ -12,6 +12,9 @@ const InputButtonComponent = ({ onAddTask }) => {
     }
   };
 
+  // askip TouchableNativeFeedback pour Android et TouchableOpacity pour les autres plateformes
+  const ButtonComponent = Platform.OS === 'android' ? TouchableNativeFeedback : TouchableOpacity;
+
   return (
     <View style={styles.container}>
       <TextInput
@@ -20,9 +23,9 @@ const InputButtonComponent = ({ onAddTask }) => {
         onChangeText={setTask}
         placeholder="Saisir un objectif"
       />
-      <TouchableOpacity style={styles.addButton} onPress={handleAddTask}>
+      <ButtonComponent style={styles.addButton} onPress={handleAddTask}>
         <Text style={styles.buttonText}>Ajouter</Text>
-      </TouchableOpacity>
+      </ButtonComponent>
     </View>
   );
 };
